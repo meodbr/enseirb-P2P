@@ -1,6 +1,6 @@
 # Network Project – ENSEIRB-MATMECA
 
-## About this Project
+## Personal notes
 
 This project was part of a computer networks course. My team built a Peer-to-Peer (P2P) file-sharing system with a central tracker and multiple peers. I was solely responsible for designing and implementing the **tracker**, which manages peer connections, shared file metadata, and concurrency.  
 
@@ -8,7 +8,7 @@ I was responsible for the tracker part, which i coded in **C**, implementing a *
 
 ---
 
-## Overview
+## Project Overview
 
 This project is a Peer-to-Peer (P2P) file sharing system built around a central tracker.
 Peers periodically announce their shared files to the tracker and can search for and
@@ -22,6 +22,7 @@ The project includes:
 
 ## Project Structure
 
+```bash
 install/
 ├── tracker/
 │   └── config.ini
@@ -30,6 +31,7 @@ install/
     ├── peer2_files/
     ├── ...
     └── config.ini
+```
 
 ## Build Instructions
 
@@ -96,7 +98,7 @@ such as cache cleanup.
 
 Located at:
 
-install/peers/config.ini
+[install/peers/config.ini](install/peers/config.ini)
 
 Default configuration for peer X:
 
