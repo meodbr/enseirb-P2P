@@ -229,3 +229,11 @@ This project was developed as an academic network programming exercise focusing 
 - Multithreading
 - Peer-to-peer architecture
 - Synchronization and concurrency control
+
+## Credits
+
+Antoine L'Honoré
+Melek Mkadem
+Mathis Reinert
+Inès Boukhars
+Méo Desbois-Renaudin
