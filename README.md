@@ -9,8 +9,11 @@ I was responsible for the tracker part, which i coded in **C**, implementing a *
 ## Credits
 
 Antoine L'Honoré
+
 Melek Mkadem
+
 Mathis Reinert
+
 Inès Boukhars
 
 ---
