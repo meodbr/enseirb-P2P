@@ -1,4 +1,12 @@
-# Network Project – Team MIAMM
+# Network Project – ENSEIRB-MATMECA
+
+## About this Project
+
+This project was part of a computer networks course. My team built a Peer-to-Peer (P2P) file-sharing system with a central tracker and multiple peers. I was solely responsible for designing and implementing the **tracker**, which manages peer connections, shared file metadata, and concurrency.  
+
+I was responsible for the tracker part, which i coded in **C**, implementing a **thread pool** for handling multiple simultaneous connections, and network interface. This allowed the peers to announce their files, search for files, and download them efficiently from other peers.  
+
+---
 
 ## Overview
 
