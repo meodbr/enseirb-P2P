@@ -28,12 +28,13 @@ Cela permet de lancer le tracker.
 ### Lancement des peers
 Dans un autre terminale lancer la commande suivante :
 
-    ```bash
-    make run_peers
-    ```
+```bash
+make run_peers
+```
 Cela permet de lancer les peers.
 
 ## Configuration
+
 Il y a respectivement dans les répertoires `install/tracker` et `install/peers` les fichiers de configuration `config.ini` pour le tracker et les peers.
 
 La configuration de peerX par défaut est la suivante :
