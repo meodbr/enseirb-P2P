@@ -6,6 +6,13 @@ This project was part of a computer networks course. My team built a Peer-to-Pee
 
 I was responsible for the tracker part, which i coded in **C**, implementing a **thread pool** for handling multiple simultaneous connections, and network interface. This allowed the peers to announce their files, search for files, and download them efficiently from other peers.  
 
+## Credits
+
+Antoine L'Honoré
+Melek Mkadem
+Mathis Reinert
+Inès Boukhars
+
 ---
 
 ## Project Overview
@@ -229,11 +236,3 @@ This project was developed as an academic network programming exercise focusing 
 - Multithreading
 - Peer-to-peer architecture
 - Synchronization and concurrency control
-
-## Credits
-
-Antoine L'Honoré
-Melek Mkadem
-Mathis Reinert
-Inès Boukhars
-Méo Desbois-Renaudin
