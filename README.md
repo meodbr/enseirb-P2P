@@ -1,121 +1,221 @@
-# Projet de réseau - team MIAMM
+# Network Project – Team MIAMM
 
+## Overview
 
-## Lancement du projet
+This project is a Peer-to-Peer (P2P) file sharing system built around a central tracker.
+Peers periodically announce their shared files to the tracker and can search for and
+download files from other peers using a multi-threaded P2P transfer system.
 
-### Compilation
-Dans un terminale lancer la commande suivante :
+The project includes:
+- A tracker to manage peers and shared files
+- Multiple peers that share and download files
+- A graphical interface for file search and download
+- Multithreaded networking for scalability and performance
 
-    ```bash
-    make
-    ```
-Cela permet de compiler le projet.
+## Project Structure
 
-### Suivi des connexions
-Dans un terminale lancer la commande suivante :
+install/
+├── tracker/
+│   └── config.ini
+└── peers/
+    ├── peer1_files/
+    ├── peer2_files/
+    ├── ...
+    └── config.ini
 
-    ```bash
-    watch -n 1 "netstat -antpu | grep 500"
-    ```
-Cela permet de voir les connexions sur les port utilisés.
+## Build Instructions
 
-### Lancement du tracker
-Dans un autre terminale lancer la commande suivante :
+To compile the project, run the following command from the project root:
 
-    ```bash
-    make run_tracker
-    ```
-Cela permet de lancer le tracker.
+```bash
+make
+```
 
-### Lancement des peers
-Dans un autre terminale lancer la commande suivante :
+This will compile all required components (tracker and peers).
 
-    ```bash
-    make run_peers
-    ```
-Cela permet de lancer les peers.
+## Running the Project
+
+### 1. Monitor Network Connections (Optional)
+
+You can monitor active connections on the used ports with:
+
+```bash
+watch -n 1 "netstat -antpu | grep 500"
+```
+
+This is useful for debugging and observing peer-to-peer connections.
+
+### 2. Start the Tracker
+
+In a dedicated terminal:
+
+```bash
+make run_tracker
+```
+
+This launches the tracker, which manages peers and shared file metadata.
+
+### 3. Start the Peers
+
+In another terminal:
+
+```bash
+make run_peers
+```
+
+This starts multiple peers simultaneously to simulate a P2P network.
 
 ## Configuration
-Il y a respectivement dans les répertoires `install/tracker` et `install/peers` les fichiers de configuration `config.ini` pour le tracker et les peers.
 
-La configuration de peerX par défaut est la suivante :
-peerX_ip = 127.0.0.X
-peerX_port = 5001
-peerX_interval = 100000
-peerX_directory_path = install/peers/peerX_files 
-peerX_max_peers = 5
+### Tracker Configuration
 
-Le répertoire install/peers/peerX_files contient des fichiers du peerX de test pour les peers.
+Located at:
 
-La configuration du tracker par défaut est la suivante :
-tracker_ip = 127.0.0.100
-tracker_port = 5000
-tracker_interval = 10000
+[install/tracker/config.ini](install/tracker/config.ini)
 
+Default values:
 
-## Fonctionnalités
+```bash
+tracker_ip = 127.0.0.100  
+tracker_port = 5000  
+tracker_interval = 10000  
+```
+
+tracker_interval defines the time (in milliseconds) between maintenance operations
+such as cache cleanup.
+
+### Peer Configuration
+
+Located at:
+
+install/peers/config.ini
+
+Default configuration for peer X:
+
+```bash
+peerX_ip = 127.0.0.X  
+peerX_port = 5001  
+peerX_interval = 100000  
+peerX_directory_path = install/peers/peerX_files  
+peerX_max_peers = 5  
+```
+
+Each peer has its own directory (peerX_files) containing:
+- Files it shares
+- Files it downloads
+
+## Features
+
 ### Tracker
-Le tracker permet de gérer les peers et les fichiers partagés. Il permet de récupérer la liste des fichiers partagés par les peers et de récupérer la liste des peers possédant un fichier donné.
+
+The tracker is responsible for:
+- Managing connected peers
+- Storing metadata about shared files
+- Returning the list of available files
+- Returning the list of peers owning a given file
+
+The tracker does not store file data, only metadata.
 
 ### Peer
-Le peer permet de partager des fichiers et de télécharger des fichiers partagés par d'autres peers. Il permet de se connecter au tracker pour récupérer la liste des fichiers partagés par les autres peers et de se connecter aux autres peers pour télécharger les fichiers.
 
-Chaques peer X possède un répertoire `peerX_files` contenant les fichiers qu'il partage.
-Les fichiers téléchargés sont stockés dans ce même répertoire.
+Each peer can:
+- Share files from its local directory
+- Search for files via the tracker
+- Download files from other peers using P2P connections
 
-Les peers annonces au tracker à intervalle régulier les fichiers qu'ils partagent.
+Peers periodically announce their available files to the tracker.
 
-### Interface graphique
-Chaque peer possède une interface graphique permettant de voir sont en continue les fichiers contenues dans le répertoire `peerX_files` et les fichiers téléchargés.
+Downloaded files are stored in the same peerX_files directory.
 
-Il est possible d'effectuer une recherche tel que `filename="fichier.txt"` pour récupérer les fichiers dont le nom est `fichier.txt`.
+### Graphical User Interface (GUI)
 
-Copier coller la ligne correspondant au fichier que vous souhaitez télécharger dans le champs de recherche pour télécharger le fichier.
+Each peer includes a GUI that allows:
+- Real-time display of local and downloaded files
+- File search via the tracker
 
-Cliquer sur le bouton `Télécharger` pour Télécharger le fichier.
-    Cette action va créer un nouveau fichier dans le répertoire `peerX_files` du peer courant.
-    Récupérer les peers possédant le fichier et effectuer un téléchargement multithreader en P2P pour récupérer le fichier.
-    A la fin du téléchargement, le fichier est disponible dans le répertoire `peerX_files` du peer courant si la vérification de l'intégrité du fichier est correcte.
+Search example:
 
-### Logs
-Toutes les logs sont dans le terminal et non redirigées dans un fichier.
+filename="file.txt"
 
-### Gestion des erreurs
-Toutes les erreurs sont gérées et affichées dans le terminal.
+This retrieves all peers sharing file.txt.
+
+To download a file:
+1. Copy and paste the result line into the search field
+2. Click the Download button
+3. The peer retrieves the list of peers owning the file
+4. The file is downloaded in parallel chunks from multiple peers
+5. File integrity is verified
+6. If successful, the file appears in peerX_files
 
 ## Multithreading
+
 ### Tracker
-Le tracker est multithreadé pour gérer les connexions simultanées des peers.
+
+The tracker is multithreaded and can handle multiple peer connections concurrently.
 
 ### Peer
-Le peer est multithreadé pour gérer les connexions simultanées des peers et le téléchargement des fichiers.
-Le téléchargement des fichiers est fait de manière sécurisé avec des vérous sur les indices du tableau de téléchargement afin d'éviter les conflits.
-Le téléchargement des fichiers est multithreadé pour permettre de télécharger plusieurs morceaux de fichiers en même temps et provenant de plusieurs peers.
 
-### Peers
-Peers est multithreadé pour permettre de lancer plusieurs peer en même temps et de simuler un réseau P2P.
+Each peer:
+- Manages multiple incoming and outgoing connections
+- Downloads files using parallel chunk-based transfers
+- Uses synchronization mechanisms (locks) to avoid race conditions
 
+### Peer Launcher
 
-## Cache
+The peer launcher is multithreaded and allows multiple peers to run simultaneously,
+simulating a real P2P network.
+
+## Caching
+
+### Tracker Cache
+
+- Stores peer and file metadata
+- Implemented as a dynamic structure
+- Entries are removed when their expiration time is reached
+- Cache is updated on every peer announcement
+
+### Peer Cache
+
+- Stores search results retrieved from the tracker
+- Used to populate the GUI
+- Cache is cleared on each new search
+
+## Logging and Error Handling
+
+- All logs are displayed directly in the terminal
+- No log files are generated
+- All errors are handled and clearly reported in terminal output
+
+## Network Configuration (IP / Port)
+
 ### Tracker
-Le tracker possède un cache pour stocker les informations des peers et des fichiers partagés est en réalité un tableau de structure dynamique. Le cache est clean des que la date d'expiration est dépassée. Le cache est mis à jour à chaque annonce de peer.
+
+- Uses a configurable IP address and port
+- Can be changed in config.ini
 
 ### Peer
-Le peer possède un cache pour stocker le résultat de la recherche par critère addresser au tracker. Cela permet de l'afficher dans l'interface graphique. Le cache est vidé à chaque nouvelle recherche.
 
+- Each peer has a configurable IP address and port
+- Settings can be changed in config.ini
 
-## IP/Port
-### Tracker
-Le tracker possède une adresse IP et un port par défaut. Il est possible de changer l'adresse IP et le port dans le fichier de configuration `config.ini`.
+### Current Implementation Details
 
-### Peer
-Le peer possède une adresse IP et un port par défaut. Il est possible de changer l'adresse IP et le port dans le fichier de configuration `config.ini`.
+- Peer server sockets bind only to the configured port
+- Peer client sockets bind to both IP address and port
+- Tracker socket binds to both IP address and port
 
-### Actuelement
-Le serveur de chaque peer possède une socket qui est bind seulement avec le port.
-Le client de chaque peer bind avec l'adresse IP et le port.
-Le tracker possède une socket qui est bind avec l'adresse IP et le port.
+## Compatibility
 
-### Compatisibilité
-Le projet est compatible avec les adresses IP si on veut le déployer dans un sous réseau avec des machines différentes.
+The project can be deployed on:
+- A single machine (localhost)
+- Multiple machines within the same subnet
 
+Peers and tracker can run on different hosts by updating configuration files.
+
+## Notes
+
+This project was developed as an academic network programming exercise focusing on:
+- Socket programming
+- Multithreading
+- Peer-to-peer architecture
+- Synchronization and concurrency control
